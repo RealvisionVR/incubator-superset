@@ -48,8 +48,27 @@ export default function lineMulti(slice, payload) {
 
   Promise.all(promises).then((data) => {
     const payloadCopy = { ...payload };
-    payloadCopy.data = [].concat(...data);
 
+    let customSortedData = [];
+    let fullData = [].concat(...data);
+    if (payloadCopy.form_data.legend_ordering){
+      let sortKeys = payloadCopy.form_data.legend_ordering.split(',');
+      for (let i = 0; i < sortKeys.length; i++){
+        let key = sortKeys[i];
+        var matchingData = fullData.find(obj => {
+          return obj.key.includes(key);
+        });
+
+        if (matchingData){
+          fullData.splice( fullData.indexOf(matchingData), 1 );
+          customSortedData.push(matchingData);
+        }
+      }
+    }
+
+    payloadCopy.data = customSortedData.concat(fullData);
+
+    console.log(payloadCopy);
     // add null values at the edges to fix multiChart bug when series with
     // different x values use different y axes
     if (fd.line_charts.length && fd.line_charts_2.length) {

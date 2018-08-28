@@ -1172,6 +1172,13 @@ export const controls = {
     default: '',
   },
 
+  legend_ordering: {
+    type: 'TextControl',
+    label: t('Legend Ordering (Comma Seperated)'),
+    renderTrigger: false,
+    default: '',
+  },
+
   y_axis_label: {
     type: 'TextControl',
     label: t('Y Axis Label'),
@@ -2131,7 +2138,7 @@ export const controls = {
     validators: [v.nonEmpty],
     default: [],
     description: t('Pick a set of line charts to layer on top of one another'),
-    dataEndpoint: '/sliceasync/api/read?_flt_0_viz_type=line&_flt_7_viz_type=line_multi',
+    dataEndpoint: '/sliceasync/api/read',
     placeholder: t('Select charts'),
     onAsyncErrorMessage: t('Error while fetching charts'),
     mutator: (data) => {
@@ -2149,7 +2156,7 @@ export const controls = {
     validators: [],
     default: [],
     description: t('Choose one or more charts for right axis'),
-    dataEndpoint: '/sliceasync/api/read?_flt_0_viz_type=line&_flt_7_viz_type=line_multi',
+    dataEndpoint: '/sliceasync/api/read',
     placeholder: t('Select charts'),
     onAsyncErrorMessage: t('Error while fetching charts'),
     mutator: (data) => {

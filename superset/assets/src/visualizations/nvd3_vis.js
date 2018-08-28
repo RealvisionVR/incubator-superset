@@ -105,7 +105,7 @@ function getMaxLabelSize(container, axisClass) {
   // axis class = .nv-y2  // second y axis on dual line chart
   // axis class = .nv-x  // x axis on time series line chart
   const labelEls = container.find(`.${axisClass} text`).not('.nv-axislabel');
-  const labelDimensions = labelEls.map(i => labelEls[i].getComputedTextLength() * 0.75);
+  const labelDimensions = labelEls.map(i => labelEls[i].getComputedTextLength() * 0.95);
   return Math.ceil(Math.max(...labelDimensions));
 }
 
@@ -226,6 +226,10 @@ export default function nvd3Vis(slice, payload) {
 
       case 'line_multi':
         chart = nv.models.multiChart();
+        if (fd.bar_stacked){
+          chart.bars1.stacked(true);
+          chart.bars2.stacked(true);
+        }
         chart.interpolate(fd.line_interpolation);
         break;
 
@@ -242,6 +246,7 @@ export default function nvd3Vis(slice, payload) {
         .showMaxMin(false);
 
         stacked = fd.bar_stacked;
+        console.log(stacked);
         chart.stacked(stacked);
 
         if (fd.show_bar_value) {

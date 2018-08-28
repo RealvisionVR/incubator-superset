@@ -42,6 +42,15 @@ export const lyftColors = [
   '#AC2077',
 ];
 
+export const realvisionOrderColors = [
+  '#168a02',
+  '#03eb1a',
+  '#b80802',
+  '#ff3d36',
+  '#03ff1c',
+  '#0232cf',
+];
+
 const d3Category10 = d3.scale.category10().range();
 const d3Category20 = d3.scale.category20().range();
 const d3Category20b = d3.scale.category20b().range();
@@ -89,6 +98,7 @@ export const ALL_COLOR_SCHEMES = {
   googleCategory10c,
   googleCategory20c,
   lyftColors,
+  realvisionOrderColors,
 };
 
 export const spectrums = {

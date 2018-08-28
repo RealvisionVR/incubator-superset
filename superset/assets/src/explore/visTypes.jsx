@@ -225,7 +225,7 @@ export const visTypes = {
           ['color_scheme'],
           ['prefix_metric_with_slice_name', null],
           ['show_legend', 'show_markers'],
-          ['line_interpolation', null],
+          ['line_interpolation', 'bar_stacked'],
         ],
       },
       {
@@ -256,6 +256,13 @@ export const visTypes = {
         expanded: true,
         controlSetRows: [
           ['adhoc_filters'],
+        ],
+      },
+      {
+        label: t('Custom Legend Ordering'),
+        expanded: true,
+        controlSetRows: [
+          ['legend_ordering'],
         ],
       },
       sections.annotations,
