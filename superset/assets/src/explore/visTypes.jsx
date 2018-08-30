@@ -427,6 +427,15 @@ export const visTypes = {
           ['y_axis_format', 'y_axis_bounds'],
         ],
       },
+      {
+        label: t('Line Mode'),
+        expanded: true,
+        controlSetRows: [
+          ['bar_trace_lines'],
+          ['legend_ordering'],
+        ],
+      },
+
       sections.NVD3TimeSeries[1],
       sections.annotations,
     ],

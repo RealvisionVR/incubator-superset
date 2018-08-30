@@ -1179,6 +1179,13 @@ export const controls = {
     default: '',
   },
 
+  bar_trace_lines: {
+    type: 'TextControl',
+    label: t('Enter Field Values to Display as Lines (Comma Seperated)'),
+    renderTrigger: false,
+    default: '',
+  },
+
   y_axis_label: {
     type: 'TextControl',
     label: t('Y Axis Label'),

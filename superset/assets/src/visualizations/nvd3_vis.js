@@ -144,6 +144,8 @@ export default function nvd3Vis(slice, payload) {
   slice.container.html('');
   slice.clearError();
 
+  console.log(data[0].key);
+
   let width = slice.width();
   const fd = slice.formData;
 
@@ -234,9 +236,19 @@ export default function nvd3Vis(slice, payload) {
         break;
 
       case 'bar':
-        chart = nv.models.multiBarChart()
-        .showControls(fd.show_controls)
-        .groupSpacing(0.1);
+
+        // chart = nv.models.multiBarChart()
+        // .showControls(fd.show_controls)
+        // .groupSpacing(0.1);
+        //
+        chart = nv.models.multiChart();
+        if (fd.bar_stacked){
+          chart.bars1.stacked(true);
+          chart.bars2.stacked(true);
+        }
+        // chart.interpolate("linear");
+
+
 
         if (!reduceXTicks) {
           width = barchartWidth();
@@ -244,16 +256,16 @@ export default function nvd3Vis(slice, payload) {
         chart.width(width);
         chart.xAxis
         .showMaxMin(false);
+        // //
+        // stacked = fd.bar_stacked;
+        // chart.stacked(stacked);
+        //
+        // if (fd.show_bar_value) {
+        //   setTimeout(function () {
+        //     addTotalBarValues(svg, chart, data, stacked, fd.y_axis_format);
+        //   }, animationTime);
+        // }
 
-        stacked = fd.bar_stacked;
-        console.log(stacked);
-        chart.stacked(stacked);
-
-        if (fd.show_bar_value) {
-          setTimeout(function () {
-            addTotalBarValues(svg, chart, data, stacked, fd.y_axis_format);
-          }, animationTime);
-        }
         break;
 
       case 'dist_bar':
@@ -524,6 +536,48 @@ export default function nvd3Vis(slice, payload) {
     chart.height(height);
     slice.container.css('height', height + 'px');
 
+    if (vizType === 'bar'){
+      let lineFields = fd.bar_trace_lines.split(",");
+
+      data = payload.data.map(function(x){
+        let isLine = x.key.some(function(t){
+          return lineFields.includes(t);
+        });
+        if (isLine){
+          return {
+            ...x, type: 'line', seriesIndex: 0, yAxis: 1
+          };
+        } else{
+          return {
+            ...x, type: 'bar', seriesIndex: 0, yAxis: 1
+          };
+        }
+      });
+
+      let customSortedData = [];
+      let fullData = [].concat(...data);
+      if (fd.legend_ordering){
+        let sortKeys = fd.legend_ordering.split(',');
+        for (let i = 0; i < sortKeys.length; i++){
+          let key = sortKeys[i];
+          var matchingData = data.find(obj => {
+            return obj.key.includes(key);
+          });
+
+          if (matchingData){
+            data.splice( data.indexOf(matchingData), 1 );
+            customSortedData.push(matchingData);
+          }
+        }
+      }
+      console.log(data.length);
+      console.log(customSortedData.length);
+
+      customSortedData = customSortedData.concat(data);
+      console.log(customSortedData);
+      data = customSortedData;
+    }
+
     svg
     .datum(data)
     .transition().duration(500)
@@ -561,6 +615,8 @@ export default function nvd3Vis(slice, payload) {
       .style('stroke-opacity', 1)
       .style('fill-opacity', 1);
     }
+
+
 
     if (chart.yAxis !== undefined || chart.yAxis2 !== undefined) {
       // Hack to adjust y axis left margin to accommodate long numbers
@@ -645,6 +701,8 @@ export default function nvd3Vis(slice, payload) {
         data.push(...timeSeriesAnnotations);
       }
 
+
+
       // render chart
       svg
       .datum(data)
@@ -665,7 +723,7 @@ export default function nvd3Vis(slice, payload) {
         let xMax;
         let xMin;
         let xScale;
-        if (vizType === VIZ_TYPES.bar) {
+        if (false) {
           xMin = d3.min(data[0].values, d => (d.x));
           xMax = d3.max(data[0].values, d => (d.x));
           xScale = d3.scale.quantile()
@@ -688,6 +746,7 @@ export default function nvd3Vis(slice, payload) {
 
         if (Array.isArray(formulas) && formulas.length) {
           const xValues = [];
+
           if (vizType === VIZ_TYPES.bar) {
             // For bar-charts we want one data point evaluated for every
             // data point that will be displayed.
@@ -697,6 +756,7 @@ export default function nvd3Vis(slice, payload) {
             }, new Set());
             xValues.push(...distinct.values());
             xValues.sort();
+            console.log(xValues);
           } else {
             // For every other time visualization it should be ok, to have a
             // data points in even intervals.
@@ -864,6 +924,8 @@ export default function nvd3Vis(slice, payload) {
             });
           });
         }
+
+        console.log(data);
 
         // rerender chart appended with annotation layer
         svg.datum(data)
