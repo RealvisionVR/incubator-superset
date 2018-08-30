@@ -540,7 +540,7 @@ export default function nvd3Vis(slice, payload) {
       let lineFields = fd.bar_trace_lines.split(",");
 
       data = payload.data.map(function(x){
-        let isLine = x.key.some(function(t){
+        let isLine = [].concat(x.key).some(function(t){
           return lineFields.includes(t);
         });
         if (isLine){
