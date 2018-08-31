@@ -584,7 +584,7 @@ export default function nvd3Vis(slice, payload) {
 
           let key = [].concat(x.key)[0];
 
-          if (sortKeys.includes(key){
+          if (sortKeys.includes(key)){
             let index = sortKeys.indexOf(key);
             if (index < colorKeys.length){
               let color = colorKeys[index];
