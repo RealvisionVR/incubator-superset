@@ -576,27 +576,27 @@ export default function nvd3Vis(slice, payload) {
       customSortedData = customSortedData.concat(data);
       console.log(customSortedData);
       data = customSortedData;
-
-      if (fd.color_ordering){
-        let colorKeys = fd.color_ordering.split(',');
-        let sortKeys = fd.legend_ordering.split(',');
-        data = payload.data.map(function(x){
-
-          let key = [].concat(x.key)[0];
-
-          if (sortKeys.includes(key)){
-            let index = sortKeys.indexOf(key);
-            if (index < colorKeys.length){
-              let color = colorKeys[index];
-              return {
-                ...x, color: color
-              };
-            }
-          }
-
-          return x;
-        });
-      }
+      //
+      // if (fd.color_ordering){
+      //   let colorKeys = fd.color_ordering.split(',');
+      //   let sortKeys = fd.legend_ordering.split(',');
+      //   data = payload.data.map(function(x){
+      //
+      //     let key = [].concat(x.key)[0];
+      //
+      //     if (sortKeys.includes(key)){
+      //       let index = sortKeys.indexOf(key);
+      //       if (index < colorKeys.length){
+      //         let color = colorKeys[index];
+      //         return {
+      //           ...x, color: color
+      //         };
+      //       }
+      //     }
+      //
+      //     return x;
+      //   });
+      // }
 
 
     }
