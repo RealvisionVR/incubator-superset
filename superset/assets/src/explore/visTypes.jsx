@@ -433,6 +433,7 @@ export const visTypes = {
         controlSetRows: [
           ['bar_trace_lines'],
           ['legend_ordering'],
+          ['color_ordering'],
         ],
       },
 

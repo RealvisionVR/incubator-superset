@@ -1179,6 +1179,13 @@ export const controls = {
     default: '',
   },
 
+  color_ordering: {
+    type: 'TextControl',
+    label: t('Colors To Display Legend Ordered Fields (HEX - Comma Seperated)'),
+    renderTrigger: false,
+    default: '',
+  },
+
   bar_trace_lines: {
     type: 'TextControl',
     label: t('Enter Field Values to Display as Lines (Comma Seperated)'),
