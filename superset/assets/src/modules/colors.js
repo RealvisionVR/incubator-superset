@@ -51,6 +51,12 @@ export const realvisionOrderColors = [
   '#0232cf',
 ];
 
+export const realvisionMapColors = [
+  'blue',
+  '#168a02',
+  '#b80802',
+];
+
 const d3Category10 = d3.scale.category10().range();
 const d3Category20 = d3.scale.category20().range();
 const d3Category20b = d3.scale.category20b().range();
@@ -99,6 +105,7 @@ export const ALL_COLOR_SCHEMES = {
   googleCategory20c,
   lyftColors,
   realvisionOrderColors,
+  realvisionMapColors,
 };
 
 export const spectrums = {
