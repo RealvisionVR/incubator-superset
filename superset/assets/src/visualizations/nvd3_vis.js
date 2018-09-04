@@ -489,7 +489,7 @@ export default function nvd3Vis(slice, payload) {
         }
       }
 
-      return d.color || getColorFromScheme(item[colorKey], fd.color_scheme);
+      return item.color || getColorFromScheme(item[colorKey], fd.color_scheme);
     }
 
     if (vizType === 'time_pivot') {
