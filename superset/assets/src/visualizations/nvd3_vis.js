@@ -476,19 +476,20 @@ export default function nvd3Vis(slice, payload) {
     setAxisShowMaxMin(chart.y2Axis, fd.y_axis_showminmax || false);
 
     function getColor(item){
-      console.log(item);
-      let sortKeys = fd.legend_ordering.split(',');
-      let colorKeys = fd.color_ordering.split(',');
+      if (fd.color_ordering){
+        let sortKeys = fd.legend_ordering.split(',');
+        let colorKeys = fd.color_ordering.split(',');
 
-      for (let i = 0; i < sortKeys.length; i++){
-        if (sortKeys[i] === item.key){
-          if (i < colorKeys.length ){
-            return colorKeys[i];
+        for (let i = 0; i < sortKeys.length; i++){
+          if (sortKeys[i] === item.key){
+            if (i < colorKeys.length ){
+              return colorKeys[i];
+            }
           }
         }
       }
 
-      return getColorFromScheme(item[colorKey], fd.color_scheme);
+      return d.color || getColorFromScheme(item[colorKey], fd.color_scheme);
     }
 
     if (vizType === 'time_pivot') {
