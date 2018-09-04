@@ -475,6 +475,22 @@ export default function nvd3Vis(slice, payload) {
     setAxisShowMaxMin(chart.yAxis, fd.y_axis_showminmax || false);
     setAxisShowMaxMin(chart.y2Axis, fd.y_axis_showminmax || false);
 
+    function getColor(item){
+      console.log(item);
+      let sortKeys = fd.legend_ordering.split(',');
+      let colorKeys = fd.color_ordering.split(',');
+
+      for (let i = 0; i < sortKeys.length; i++){
+        if (sortKeys[i] === item.key){
+          if (i < colorKeys.length ){
+            return colorKeys[i];
+          }
+        }
+      }
+
+      return getColorFromScheme(item[colorKey], fd.color_scheme);
+    }
+
     if (vizType === 'time_pivot') {
       chart.color((d) => {
         const c = fd.color_picker;
@@ -484,8 +500,8 @@ export default function nvd3Vis(slice, payload) {
         }
         return `rgba(${c.r}, ${c.g}, ${c.b}, ${alpha})`;
       });
-    } else if (vizType !== 'bullet' && !fd.color_ordering) {
-      chart.color(d => (d.color && d.data.color) || getColorFromScheme(d[colorKey], fd.color_scheme));
+    } else if (vizType !== 'bullet') {
+      chart.color(d => getColor(d));//(d.color && d.data.color) || );
     }
     if ((vizType === 'line' || vizType === 'area') && fd.rich_tooltip) {
       chart.useInteractiveGuideline(true);
@@ -570,36 +586,8 @@ export default function nvd3Vis(slice, payload) {
           }
         }
       }
-      console.log(data.length);
-      console.log(customSortedData.length);
-
       customSortedData = customSortedData.concat(data);
-      console.log(customSortedData);
       data = customSortedData;
-      //
-      if (fd.color_ordering){
-        let colorKeys = fd.color_ordering.split(',');
-        let sortKeys = fd.legend_ordering.split(',');
-        data = payload.data.map(function(x){
-
-          let key = [].concat(x.key)[0];
-
-          if (sortKeys.includes(key)){
-            let index = sortKeys.indexOf(key);
-            if (index < colorKeys.length){
-              let color = colorKeys[index];
-              return {
-                ...x, color: color
-              };
-            }
-          }
-
-          return x;
-        });
-
-        console.log(data);
-      }
-
 
     }
 
